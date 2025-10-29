@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="لعبة الكوتشينة" />
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIti52YTYqSDYp9mE2YPZiNiq2LTZitmG2Kkg2YTYudio2Kkg2KfZhNiw2KfZg9ix2KkiLAogICJzaG9ydF9uYW1lIjogIti52YTYqSDYp9mE2YPZiNiq2LTZitmG2KkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMTcyYSIsCiAgInRoZW1lX2NvbG9yIjogIiMwZjE3MmEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhPVElpSUdobGFXZG9kRDBpTVRreUlqNDhjbVZqZENCM2FXUjBhRDBpTVRreUlpQm9aV2xuYUhROUlqRTVNaUlnWm1sc2JEMGlJekJtTVRjeVlTSXZQangwWlhoMElIZzlJalEwSWlCNVBTSTVOaUlnWm05dWRDMXphWHBsUFNJMk5DSWdabWxzYkQwaUl6QTJZalprTkNJK/CfjrQ4TDNSbGVIUStQQzl6ZG1jKyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhkcFpIUm9QU0kxTVRJaUlHaGxhV2RvZEQwaU5URXlJajQ4Y21WamRDQjNhV1IwYUQwaU5URXlJaUJvWldsbmFIUTlJalV4TWlJZ1ptbHNiRDBpSXpCbU1UY3lZU0l2UGp4MFpYaDBJSGc5SWpFeE1pSWdlVDBpTWpVMklpQm1iMjUwTFhOcGVtVTlJakV5T0NJZ1ptbHNiRDBpSXpBMllqWmtOQ0krOEorT3REd3ZkR1Y0ZEQ0OEwzTjJaejQ9IiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgZmlsbD0iIzBmMTcyYSIvPjx0ZXh0IHg9IjQ0IiB5PSI5NiIgZm9udC1zaXplPSI2NCIgZmlsbD0iIzA2YjZkNCI+8J+OtDwvdGV4dD48L3N2Zz4=" />
+  <title>لعبة كوتشينة - لعبة الذاكرة</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#f8fafc;
+      --accent:#06b6d4;
+      --accent-hover:#0891b2;
+      --card-back:#1f2937;
+      --success:#10b981;
+      --warning:#f59e0b;
+    }
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans Arabic',Tahoma,Arial;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%;margin:0;overscroll-behavior:none}
+    body{
+      background:linear-gradient(180deg,#071020 0%,#0c1e35 50%,#072031 100%);
+      color:var(--card);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px;
+      min-height:100vh;
+      touch-action:pan-y;
+    }
+    .wrap{width:100%;max-width:1000px}
+    .install-prompt{
+      position:fixed;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%);
+      background:linear-gradient(135deg,#06b6d4,#0891b2);
+      padding:16px 24px;
+      border-radius:12px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+      display:none;
+      align-items:center;
+      gap:12px;
+      z-index:1000;
+      animation:slideUp 0.3s;
+      max-width:90%;
+    }
+    .install-prompt.show{display:flex}
+    .install-prompt button{
+      background:white;
+      color:#0f172a;
+      padding:8px 16px;
+      border:none;
+      border-radius:8px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .install-prompt .close{
+      background:transparent;
+      color:white;
+      padding:4px 8px;
+      font-size:20px;
+    }
+    header{
+      background:rgba(15,23,42,0.6);
+      backdrop-filter:blur(10px);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:16px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    }
+    .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+    h1{font-size:20px;margin:0;background:linear-gradient(135deg,#06b6d4,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    button{
+      background:var(--accent);
+      border:0;
+      padding:10px 16px;
+      border-radius:10px;
+      color:#012;
+      cursor:pointer;
+      font-weight:700;
+      transition:all 0.2s;
+      box-shadow:0 4px 12px rgba(6,182,212,0.3);
+      user-select:none;
+    }
+    button:active{
+      transform:scale(0.95);
+    }
+    .difficulty-select{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+    .difficulty-btn{
+      background:rgba(31,41,55,0.8);
+      color:var(--card);
+      padding:8px 12px;
+      font-size:13px;
+      flex:1;
+      min-width:90px;
+    }
+    .difficulty-btn.active{
+      background:var(--accent);
+      color:#012;
+    }
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    .stat{
+      background:rgba(31,41,55,0.5);
+      padding:10px;
+      border-radius:10px;
+      text-align:center;
+    }
+    .stat-label{font-size:11px;color:#9ca3af;margin-bottom:2px}
+    .stat-value{font-size:20px;font-weight:700;color:var(--accent)}
+    .board{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+      perspective:1000px;
+    }
+    .board.easy{grid-template-columns:repeat(3,1fr)}
+    .board.medium{grid-template-columns:repeat(4,1fr)}
+    .board.hard{grid-template-columns:repeat(5,1fr)}
+    .card{
+      aspect-ratio:3/4;
+      background:transparent;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      user-select:none;
+      position:relative;
+      transform-style:preserve-3d;
+      transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);
+      touch-action:manipulation;
+    }
+    .card:active:not(.flipped):not(.matched){
+      transform:scale(0.95);
+    }
+    .card.flipped{
+      transform:rotateY(180deg);
+      cursor:default;
+    }
+    .card .face, .card .back{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      backface-visibility:hidden;
+      box-shadow:0 4px 16px rgba(0,0,0,0.3);
+    }
+    .card .face{
+      background:linear-gradient(135deg,#f8fafc,#e2e8f0);
+      color:#012;
+      transform:rotateY(180deg);
+      font-size:32px;
+      font-weight:700;
+      text-shadow:2px 2px 4px rgba(0,0,0,0.1);
+    }
+    .card .back{
+      background:linear-gradient(135deg,#1e293b,#334155);
+      border:3px solid rgba(6,182,212,0.3);
+    }
+    .card .back::before{
+      content:'🎴';
+      font-size:28px;
+      opacity:0.6;
+    }
+    .card.matched{
+      animation:matchPulse 0.6s ease-out;
+      pointer-events:none;
+    }
+    .card.matched .face{
+      background:linear-gradient(135deg,#10b981,#059669);
+      color:white;
+    }
+    @keyframes matchPulse{
+      0%{transform:rotateY(180deg) scale(1)}
+      50%{transform:rotateY(180deg) scale(1.15)}
+      100%{transform:rotateY(180deg) scale(1)}
+    }
+    .card.wrong{
+      animation:wrongShake 0.5s;
+    }
+    @keyframes wrongShake{
+      0%,100%{transform:rotateY(180deg) translateX(0)}
+      25%{transform:rotateY(180deg) translateX(-10px)}
+      75%{transform:rotateY(180deg) translateX(10px)}
+    }
+    .win-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.8);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:100;
+      animation:fadeIn 0.3s;
+      padding:20px;
+    }
+    .win-overlay.show{display:flex}
+    @keyframes fadeIn{
+      from{opacity:0}
+      to{opacity:1}
+    }
+    @keyframes slideUp{
+      from{transform:translateY(50px);opacity:0}
+      to{transform:translateY(0);opacity:1}
+    }
+    .win-message{
+      background:linear-gradient(135deg,#1e293b,#334155);
+      padding:30px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow:0 20px 60px rgba(0,0,0,0.5);
+      animation:slideUp 0.5s cubic-bezier(0.4,0,0.2,1);
+      max-width:400px;
+      width:100%;
+    }
+    .win-message h2{
+      font-size:28px;
+      margin:0 0 16px 0;
+      background:linear-gradient(135deg,#10b981,#06b6d4);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .win-message p{font-size:16px;color:#9ca3af;margin:8px 0}
+    .win-message button{margin-top:16px;font-size:16px}
+    .footer{margin-top:16px;color:#64748b;font-size:13px;text-align:center;padding:0 10px}
+    @media (max-width:640px){
+      .board.easy{grid-template-columns:repeat(3,1fr)}
+      .board.medium{grid-template-columns:repeat(3,1fr)}
+      .board.hard{grid-template-columns:repeat(4,1fr)}
+      .card .face{font-size:24px}
+      h1{font-size:16px}
+      .stat-value{font-size:18px}
+      button{padding:8px 12px;font-size:14px}
+    }
+    @media (max-height:700px){
+      .wrap{padding-top:10px}
+      header{padding:12px;margin-bottom:10px}
+      .stats{gap:8px}
+      .stat{padding:8px}
+    }
+  </style>
+</head>
+<body dir="rtl">
+  <div class="install-prompt" id="installPrompt">
+    <span>📱 حمّل التطبيق على جهازك!</span>
+    <button id="installBtn">تحميل</button>
+    <button class="close" id="closeInstall">×</button>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="header-top">
+        <h1>🎴 لعبة الكوتشينة</h1>
+        <button id="restartBtn">🔄 إعادة</button>
+      </div>
+      <div class="difficulty-select">
+        <button class="difficulty-btn active" data-level="easy">سهل</button>
+        <button class="difficulty-btn" data-level="medium">متوسط</button>
+        <button class="difficulty-btn" data-level="hard">صعب</button>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">الوقت</div>
+          <div class="stat-value" id="timer">0:00</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">المحاولات</div>
+          <div class="stat-value" id="attempts">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">المطابقات</div>
+          <div class="stat-value" id="matches">0</div>
+        </div>
+      </div>
+    </header>
+    <section class="board medium" id="board"></section>
+    <div class="footer">اقلب ورقتين لإيجاد زوج مطابق 🎯</div>
+  </div>
+  
+  <div class="win-overlay" id="winOverlay">
+    <div class="win-message">
+      <h2>🎉 مبروك! فزت!</h2>
+      <p>الوقت: <strong id="finalTime">0:00</strong></p>
+      <p>المحاولات: <strong id="finalAttempts">0</strong></p>
+      <button id="playAgainBtn">العب مرة أخرى</button>
+    </div>
+  </div>
+
+  <script>
+    const CARD_SETS = {
+      easy: ['A♠','K♥','Q♣','J♦','10♠','9♥'],
+      medium: ['A♠','K♥','Q♣','J♦','10♠','9♥','8♣','7♦'],
+      hard: ['A♠','K♥','Q♣','J♦','10♠','9♥','8♣','7♦','6♠','5♥']
+    };
+
+    const boardEl = document.getElementById('board');
+    const attemptsEl = document.getElementById('attempts');
+    const matchesEl = document.getElementById('matches');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restartBtn');
+    const winOverlay = document.getElementById('winOverlay');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+    const installPrompt = document.getElementById('installPrompt');
+    const installBtn = document.getElementById('installBtn');
+    const closeInstall = document.getElementById('closeInstall');
+
+    let deck = [];
+    let flippedCards = [];
+    let lock = false;
+    let attempts = 0;
+    let matches = 0;
+    let currentLevel = 'medium';
+    let timerInterval = null;
+    let seconds = 0;
+    let gameStarted = false;
+    let deferredPrompt = null;
+
+    // PWA Install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installPrompt.classList.add('show');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        installPrompt.classList.remove('show');
+      }
+    });
+
+    closeInstall.addEventListener('click', () => {
+      installPrompt.classList.remove('show');
+    });
+
+    // Check if already installed
+    window.addEventListener('appinstalled', () => {
+      installPrompt.classList.remove('show');
+    });
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function createDeck(level) {
+      const cards = CARD_SETS[level];
+      deck = shuffle([...cards, ...cards]).map((val, idx) => ({
+        id: idx,
+        val,
+        matched: false,
+        flipped: false
+      }));
+    }
+
+    function startTimer() {
+      if (!gameStarted) {
+        gameStarted = true;
+        timerInterval = setInterval(() => {
+          seconds++;
+          const mins = Math.floor(seconds / 60);
+          const secs = seconds % 60;
+          timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      gameStarted = false;
+    }
+
+    function render() {
+      boardEl.innerHTML = '';
+      boardEl.className = `board ${currentLevel}`;
+      
+      deck.forEach(card => {
+        const el = document.createElement('button');
+        el.className = 'card';
+        el.dataset.id = card.id;
+        el.setAttribute('aria-label', 'ورقة كوتشينة');
+        if (card.flipped) el.classList.add('flipped');
+        if (card.matched) el.classList.add('matched');
+        
+        el.innerHTML = `
+          <div class="face">${card.val}</div>
+          <div class="back"></div>
+        `;
+        
+        el.addEventListener('click', () => handleCardClick(card, el));
+        boardEl.appendChild(el);
+      });
+    }
+
+    function handleCardClick(card, el) {
+      if (lock || card.flipped || card.matched) return;
+      
+      startTimer();
+      
+      card.flipped = true;
+      el.classList.add('flipped');
+      flippedCards.push({ card, el });
+
+      if (flippedCards.length === 2) {
+        lock = true;
+        attempts++;
+        attemptsEl.textContent = attempts;
+        checkMatch();
+      }
+    }
+
+    function checkMatch() {
+      const [first, second] = flippedCards;
+      
+      if (first.card.val === second.card.val) {
+        first.card.matched = true;
+        second.card.matched = true;
+        first.el.classList.add('matched');
+        second.el.classList.add('matched');
+        matches++;
+        matchesEl.textContent = matches;
+        
+        flippedCards = [];
+        lock = false;
+        
+        if (matches === deck.length / 2) {
+          setTimeout(showWin, 500);
+        }
+      } else {
+        first.el.classList.add('wrong');
+        second.el.classList.add('wrong');
+        
+        setTimeout(() => {
+          first.card.flipped = false;
+          second.card.flipped = false;
+          first.el.classList.remove('flipped', 'wrong');
+          second.el.classList.remove('flipped', 'wrong');
+          flippedCards = [];
+          lock = false;
+        }, 1000);
+      }
+    }
+
+    function showWin() {
+      stopTimer();
+      document.getElementById('finalTime').textContent = timerEl.textContent;
+      document.getElementById('finalAttempts').textContent = attempts;
+      winOverlay.classList.add('show');
+    }
+
+    function resetGame() {
+      stopTimer();
+      seconds = 0;
+      attempts = 0;
+      matches = 0;
+      flippedCards = [];
+      lock = false;
+      gameStarted = false;
+      
+      timerEl.textContent = '0:00';
+      attemptsEl.textContent = '0';
+      matchesEl.textContent = '0';
+      winOverlay.classList.remove('show');
+      
+      createDeck(currentLevel);
+      render();
+    }
+
+    difficultyBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        difficultyBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLevel = btn.dataset.level;
+        resetGame();
+      });
+    });
+
+    restartBtn.addEventListener('click', resetGame);
+    playAgainBtn.addEventListener('click', resetGame);
+
+    // Initialize game
+    createDeck(currentLevel);
+    render();
+
+    // Register Service Worker for offline support
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgKCkgPT4gc2VsZi5za2lwV2FpdGluZygpKTsKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ZW50ID0+IHsKICBldmVudC5yZXNwb25kV2l0aChmZXRjaChldmVudC5yZXF1ZXN0KSk7Cn0pOw==');
+    }
+  </script>
+</body>
+</html>
